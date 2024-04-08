@@ -17,11 +17,11 @@ public class DBTest {
             System.out.println("Connected to the database.");
 
             Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM FoodItems";
+            String sql = "SELECT * FROM foodItems";
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                // have a column named "foodName" in your table
+                //  a column named 'foodName' in table
                 String name = resultSet.getString("foodName");
                 System.out.println("Fetched name: " + name);
             }
@@ -32,4 +32,3 @@ public class DBTest {
         }
     }
 }
-

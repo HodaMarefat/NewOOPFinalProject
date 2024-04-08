@@ -27,6 +27,6 @@ public class FoodItemsServlet extends HttpServlet {
     	 
         List<FoodItem> foodItems = foodItemDAO.getAllFoodItems(); // Use DAO directly
         request.setAttribute("foodItems", foodItems); // Store the list in the request scope
-        request.getRequestDispatcher("/foodItem3.jsp").forward(request, response); // Forward to JSP
+        request.getRequestDispatcher("/foodItem.jsp").forward(request, response); // Forward to JSP
     }
 }

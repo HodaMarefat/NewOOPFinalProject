@@ -29,7 +29,7 @@ public class UserRegistrationServlet extends HttpServlet {
         User newUser = new User();
         newUser.setUserName(name);
         newUser.setEmail(email);
-        newUser.setPassword(password); // Note: Password should be hashed and checked for security
+        newUser.setPassword(password); 
         newUser.setUserType(userType);
         newUser.setFavoriteIngredient(favoriteIngredient);
 

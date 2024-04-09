@@ -9,6 +9,15 @@ public class User {
     private String userType; //  "Retailer", "Consumer", "CharitableOrganization"
 	private String favoriteIngredient;
   
+	
+	public User(String userName, String email, String password, String userType, String favoriteIngredient) {
+	    this.userName = userName;
+	    this.email = email;
+	    this.password = password;
+	    this.userType = userType;
+	    this.favoriteIngredient = favoriteIngredient;
+	    // UserID is not set here, will be set after insertion into the database
+	}
 
     // Default constructor
     public User() {

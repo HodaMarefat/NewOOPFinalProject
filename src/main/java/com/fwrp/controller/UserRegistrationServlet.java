@@ -1,49 +1,63 @@
 package com.fwrp.controller;
 
-import com.fwrp.model.User;
-import com.fwrp.service.UserService;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
+import com.fwrp.model.User;
+import com.fwrp.dao.UserDAO;
 
-@WebServlet("/registerUser")
+@WebServlet("/register")
 public class UserRegistrationServlet extends HttpServlet {
-
-    private UserService userService = new UserService(); // Assume dependency injection or similar setup
-
+    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Extract user details from the request
+        String action = request.getParameter("action");
         
-        // Extract user data from the request
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String userType = request.getParameter("userType");
-        String favoriteIngredient = request.getParameter("favoriteIngredient");
+        if ("register".equals(action)) {
+            String userName = request.getParameter("userName");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password"); // Consider hashing the password before storing
+            String userType = request.getParameter("userType");
+            String favoriteIngredient = request.getParameter("favoriteIngredient");
+            
+         // Email Validation
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                request.setAttribute("errorMessage", "Invalid email format");
+                // Forward back to the registration form with an error message
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+                return; // Stop further execution to show the error
+            }
+            
+            // Assuming User is a model class that encapsulates User properties
+            User user = new User(userName, email, password, userType, favoriteIngredient);
+            
+            try {
+                // UserDAO handles database operations
+                UserDAO userDAO = new UserDAO();
+                userDAO.addUser(user);
+                
+                // Redirect after successful registration
+                response.sendRedirect("registration-success.jsp");
+            } catch (Exception e) {
+                e.printStackTrace(); // Log the exception for debugging. Consider using a logging framework.
 
-        // Create a user object
-        User newUser = new User();
-        newUser.setUserName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(password); 
-        newUser.setUserType(userType);
-        newUser.setFavoriteIngredient(favoriteIngredient);
+                // Set an error message attribute to be displayed on the registration page or an error page
+                request.setAttribute("errorMessage", "Registration failed due to an internal error. Please try again.");
 
-        // Attempt to register the user
-        boolean isRegistered = userService.registerUser(newUser);
-
-        // Determine the view based on the outcome
-        if (isRegistered) {
-            // Redirect or forward to a success page
-            request.getRequestDispatcher("/registrationSuccess.jsp").forward(request, response);
+                // Forward to the registration page or a custom error page
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
         } else {
-            // Redirect or forward to an error page or back to the registration form with an error message
-            request.setAttribute("errorMessage", "User registration failed");
-            request.getRequestDispatcher("/registrationForm.jsp").forward(request, response);
+            // Handle other actions or error
+            response.sendRedirect("register.jsp");
         }
+    }
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Redirect GET requests to the registration form, or handle them as needed
+        response.sendRedirect("register.jsp");
     }
 }

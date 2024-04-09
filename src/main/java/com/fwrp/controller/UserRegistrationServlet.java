@@ -39,7 +39,7 @@ public class UserRegistrationServlet extends HttpServlet {
                 userDAO.addUser(user);
                 
                 // Redirect after successful registration
-                response.sendRedirect("registration-success.jsp");
+                response.sendRedirect("successfulRegistration.jsp");
             } catch (Exception e) {
                 e.printStackTrace(); // Log the exception for debugging. Consider using a logging framework.
 

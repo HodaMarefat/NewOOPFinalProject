@@ -1,6 +1,9 @@
 package com.fwrp.controller;
 import com.fwrp.model.User;
-import com.fwrp.service.UserService;
+import com.fwrp.dao.UserDAO;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,41 +12,40 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
+import javax.servlet.*;
+
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
-    private UserService userService = new UserService();
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        
-        try {
-            Optional<User> user = userService.loginUser(email, password);
-            if (user.isPresent()) {
-                // Login successful
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user.get());
-                response.sendRedirect(request.getContextPath() + "/home"); // Redirect to home or dashboard
-            } else {
-                // Login failed
-                request.setAttribute("loginError", "Invalid email or password.");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/error.jsp"); // Redirect to an error page
-        }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    String email = request.getParameter("email"); 
+	    String password = request.getParameter("password");
+	    
+	    UserDAO userDao = new UserDAO(); // a UserDAO for DB operations
+	    
+	    try {
+	        Optional<User> optionalUser = userDao.findUserByEmail(email);
+	        if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)) {
+	            // Successful login
+	            HttpSession session = request.getSession();
+	            session.setAttribute("user", optionalUser.get());
+	            response.sendRedirect("welcome.jsp");
+	        } else {
+	            // Failed login
+	            request.setAttribute("loginError", "Invalid username or password");
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+	            dispatcher.forward(request, response);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Better error handling recommended
+	    }
+	}
+	
+	@Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Redirect GET requests to the registration form, or handle them as needed
+        response.sendRedirect("login.jsp");
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Optionally, you can handle GET request to show the login page
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
-    }
 }

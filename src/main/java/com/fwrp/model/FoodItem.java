@@ -1,13 +1,14 @@
 package com.fwrp.model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class FoodItem {
     private int foodItemId;
     private String foodName;
     private String description;
     private int quantity;
-    private String status; // For Sale or For Donation
+    private String status; // For Sale or For Donation, Updated dynamically based on expiration date
     private double price; //  price field
     private String category; //  category or type
     private int retailerId;
@@ -26,6 +27,7 @@ public class FoodItem {
         this.category = category;
         this.retailerId = retailerId;
         this.expirationDate = expirationDate;
+        
     }
 
     // Default constructor
@@ -87,7 +89,7 @@ public class FoodItem {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status;     
     }
 
     public void setPrice(double price) {
@@ -105,4 +107,5 @@ public class FoodItem {
     public void setExpirationDate(LocalDate  expirationDate) {
         this.expirationDate = expirationDate;
     }
+    
 }

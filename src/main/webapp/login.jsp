@@ -4,58 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Waste Reduction Platform</title>
-    <style>
-        /* existing CSS */
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 9px #999;
-        }
-
-        .button:hover {background-color: #3e8e41}
-
-        .button:active {
-            background-color: #3e8e41;
-            box-shadow: 0 5px #666;
-            transform: translateY(4px);
-        }
-    </style>
+    <title>Food Waste Reduction Platform - Login</title>
 </head>
 <body>
     <header>
-    <h1>Food Waste Reduction Platform</h1>
-    <div style="margin-bottom: 10px;">
-        <a href="index">Home</a> |
-        <a href="about-contact">About/Contact</a> |
-        <a href="foodItem">Surplus Foods</a> |
-        <a href="subscribe-alerts">Subscribe</a>
-    </div>
-    <div>
-        <!-- Login button -->
-        <form action="login.jsp" method="get" style="display: inline;">
-            <button type="submit" class="button">Login</button>
-        </form>
-        
-        <!-- Register button -->
-        <form action="register.jsp" method="get" style="display: inline;">
-            <button type="submit" class="button">Register</button>
-        </form>
-    </div>
+        <h1>Food Waste Reduction Platform</h1>
+        <div style="margin-bottom: 10px;">
+            <a href="index.jsp">Home</a> |
+            <a href="about-contact.jsp">About/Contact</a> |
+            <a href="foodItem.jsp">Surplus Foods</a> |
+            <a href="subscribe-alerts.jsp">Subscribe</a>
+        </div>
     </header>
-
-    <footer>
-        <p>Food Waste Reduction Platform © 2024</p>
-    </footer>
+    
+    <div>
+        <% if (request.getAttribute("loginError") != null) { %>
+            <p style="color: red; font-weight: bold;"><%= request.getAttribute("loginError") %></p>
+        <% } %>
+        <form method="post" action="login" >
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"><br>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"><br>
+            
+            <input type="submit" value="Login">
+        </form>
+    </div>
 </body>
 </html>

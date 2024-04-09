@@ -59,7 +59,7 @@ public class UserDAO {
             
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with proper error handling
+            e.printStackTrace(); // proper error handling
         }
     }
 
@@ -74,7 +74,7 @@ public class UserDAO {
             // Set parameters based on the user object
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getEmail());
-            pstmt.setString(3, user.getPassword()); // Assumes you might want to update the password
+            pstmt.setString(3, user.getPassword()); // might want to update the password
             pstmt.setString(4, user.getUserType()); // UserType must match one of the ENUM values
             pstmt.setString(5, user.getFavoriteIngredient()); // Can be null
             pstmt.setInt(6, user.getUserId()); // WHERE clause to identify the user to update
@@ -115,7 +115,7 @@ public class UserDAO {
                     // Populate user object according to the SQL schema provided
                     user.setUserId(rs.getInt("UserID"));
                     user.setUserName(rs.getString("UserName"));
-                    user.setEmail(email); // Since email was used in the query, it's assumed to be correct
+                    user.setEmail(email); 
                     user.setPassword(rs.getString("Password"));
                     user.setUserType(rs.getString("UserType"));
                     user.setFavoriteIngredient(rs.getString("FavoriteIngredient"));

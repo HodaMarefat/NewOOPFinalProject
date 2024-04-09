@@ -4,14 +4,12 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.Enumeration;
 
 import com.fwrp.model.User;
 import com.fwrp.dao.UserDAO;
 
 @WebServlet("/register")
 public class UserRegistrationServlet extends HttpServlet {
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Extract user details from the request

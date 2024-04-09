@@ -28,10 +28,12 @@ public class UserDAO {
 
             while (rs.next()) {
                 User user = new User();
-                user.setUserId(rs.getInt("id"));
-                user.setUserName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                // Set other properties of User here
+                user.setUserId(rs.getInt("UserID")); // Adjusted to match column name
+                user.setUserName(rs.getString("UserName")); // Adjusted to match column name
+                user.setEmail(rs.getString("Email")); // Correct as is
+                user.setPassword(rs.getString("Password")); // Added to match schema
+                user.setUserType(rs.getString("UserType")); // Added to match schema
+                user.setFavoriteIngredient(rs.getString("FavoriteIngredient")); // Added to match schema
                 
                 users.add(user);
             }
@@ -43,14 +45,17 @@ public class UserDAO {
 
     // Method to add a User to the database
     public void addUser(User user) {
-        String sql = "INSERT INTO Users (name, email) VALUES (?, ?)";
+    	 // SQL query includes Password, UserType, and FavoriteIngredient
+        String sql = "INSERT INTO Users (UserName, Email, Password, UserType, FavoriteIngredient) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getEmail());
-            // Set other properties of User here
+            pstmt.setString(3, user.getPassword()); // getPassword() method exists
+            pstmt.setString(4, user.getUserType()); // getUserType() method returns a String
+            pstmt.setString(5, user.getFavoriteIngredient()); // getFavoriteIngredient() method exists
             
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -60,19 +65,23 @@ public class UserDAO {
 
     // Method to update a User in the database
     public void updateUser(User user) {
-        String sql = "UPDATE Users SET name=?, email=? WHERE id=?";
-        
+        // Updated SQL statement to match column names and include all updatable fields
+        String sql = "UPDATE Users SET UserName=?, Email=?, Password=?, UserType=?, FavoriteIngredient=? WHERE UserID=?";
+
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
+
+            // Set parameters based on the user object
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getEmail());
-            // Set other properties of User here
-            pstmt.setInt(3, user.getUserId());
-            
+            pstmt.setString(3, user.getPassword()); // Assumes you might want to update the password
+            pstmt.setString(4, user.getUserType()); // UserType must match one of the ENUM values
+            pstmt.setString(5, user.getFavoriteIngredient()); // Can be null
+            pstmt.setInt(6, user.getUserId()); // WHERE clause to identify the user to update
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with proper error handling
+            e.printStackTrace(); // Proper error handling should be implemented
         }
     }
 
@@ -93,7 +102,7 @@ public class UserDAO {
     
  // Method to find a User by email
     public Optional<User> findUserByEmail(String email) {
-        String sql = "SELECT * FROM Users WHERE email = ?";
+        String sql = "SELECT * FROM Users WHERE Email = ?";
         User user = null;
 
         try (Connection conn = dataSource.getConnection();
@@ -103,18 +112,20 @@ public class UserDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     user = new User();
-                    // Populate user object
-                    user.setUserId(rs.getInt("id"));
-                    user.setUserName(rs.getString("name"));
-                    user.setEmail(email);
-                    user.setPassword(rs.getString("password")); // Assuming password is stored hashed
-                    user.setUserType(rs.getString("user_type"));
+                    // Populate user object according to the SQL schema provided
+                    user.setUserId(rs.getInt("UserID"));
+                    user.setUserName(rs.getString("UserName"));
+                    user.setEmail(email); // Since email was used in the query, it's assumed to be correct
+                    user.setPassword(rs.getString("Password"));
+                    user.setUserType(rs.getString("UserType"));
+                    user.setFavoriteIngredient(rs.getString("FavoriteIngredient"));
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with proper error handling
+            e.printStackTrace(); // Proper error handling should be implemented
         }
         
         return Optional.ofNullable(user);
     }
+
 }

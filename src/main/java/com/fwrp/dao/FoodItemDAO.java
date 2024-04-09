@@ -29,8 +29,8 @@ public class FoodItemDAO {
 
             while (rs.next()) {
                 FoodItem item = new FoodItem();
-                item.setFoodItemId(rs.getInt("id"));
-                item.setFoodName(rs.getString("name"));
+                item.setFoodItemId(rs.getInt("foodItemID"));
+                item.setFoodName(rs.getString("foodName"));
                 item.setDescription(rs.getString("description"));
                 item.setQuantity(rs.getInt("quantity"));
                 item.setStatus(rs.getString("status")); // For sale or donation

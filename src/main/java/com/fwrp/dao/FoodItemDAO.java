@@ -69,7 +69,7 @@ public class FoodItemDAO {
     }
     
     public void updateFoodItem(FoodItem item) {
-        String sql = "UPDATE javafinalproject.FoodItems SET foodName=?, description=?, quantity=?, status=?, price=?, category=? WHERE id=?";
+        String sql = "UPDATE javafinalproject.FoodItems SET foodName=?, description=?, quantity=?, status=?, price=?, category=? WHERE foodItemId=?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -87,7 +87,7 @@ public class FoodItemDAO {
     }
 
     public void deleteFoodItem(int id) {
-        String sql = "DELETE FROM javafinalproject.FoodItems WHERE id=?";
+        String sql = "DELETE FROM javafinalproject.FoodItems WHERE foodItemID=?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -123,6 +123,46 @@ public class FoodItemDAO {
                 foodItem.setExpirationDate(expirationDate);
                 
                 // Assuming FoodItem class has setExpirationDate() method accepting LocalDate
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should replace this
+        }
+        
+        return foodItem;
+    }
+    
+    public FoodItem getFoodItemByName(String name) {
+        FoodItem foodItem = null;
+        String sql = "SELECT * FROM javafinalproject.FoodItems WHERE  foodName = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+        	pstmt.setString(1, name);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int foodItemId = rs.getInt("FoodItemID");
+                    String foodName = rs.getString("foodName");
+                    String description = rs.getString("Description");
+                    int quantity = rs.getInt("Quantity");
+                    String status = rs.getString("Status");
+                    double price = rs.getDouble("Price");
+                    String category = rs.getString("Category");
+                    int retailerId = rs.getInt("RetailerID");
+                    LocalDate expirationDate = rs.getDate("ExpirationDate").toLocalDate();
+
+                    foodItem = new FoodItem();  // Assuming an appropriate constructor or use setters
+                    foodItem.setFoodItemId(foodItemId);
+                    foodItem.setFoodName(foodName);
+                    foodItem.setDescription(description);
+                    foodItem.setQuantity(quantity);
+                    foodItem.setStatus(status);
+                    foodItem.setPrice(price);
+                    foodItem.setCategory(category);
+                    foodItem.setRetailerId(retailerId);
+                    foodItem.setExpirationDate(expirationDate);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Proper error handling should replace this

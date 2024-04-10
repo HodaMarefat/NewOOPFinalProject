@@ -31,9 +31,7 @@ public class addFoodItemServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
-            
-            
-            
+  
             
             // Create a new FoodItem object
             FoodItem foodItem = new FoodItem();

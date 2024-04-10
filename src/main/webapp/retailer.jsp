@@ -24,7 +24,7 @@
         <!-- Link to add a new food item -->
         <a href="retail_addFoodItem">Add New Food Item</a><br/>
         <!-- Link to update a food item (Assuming there's a form/page for this) -->
-        <a href="udateFoodItemForm">Update Food Item</a><br/>
+        <a href="retail_updateFoodItem">Update Food Item</a><br/>
         <!-- Link to list surplus items (Assuming there's a form/page for this) -->
         <a href="listSurplusItemForm">List Surplus Item</a><br/>
         <!-- Link to mark an item for donation (Assuming there's a form/page for this) -->

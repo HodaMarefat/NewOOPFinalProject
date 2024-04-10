@@ -26,6 +26,10 @@ public class RetailerService {
         foodItemDAO.updateFoodItem(foodItem);
     }
 
+ // Update a food item in the inventory
+    public FoodItem getFoodItemByName(String name) {
+        return foodItemDAO.getFoodItemByName(name);
+    }
     // Delete a food item from the inventory
     public void deleteFoodItem(int foodItemId) {
         foodItemDAO.deleteFoodItem(foodItemId);

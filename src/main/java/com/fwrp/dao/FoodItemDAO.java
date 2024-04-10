@@ -21,7 +21,7 @@ public class FoodItemDAO {
     // Method to get all FoodItems from the database
     public List<FoodItem> getAllFoodItems() {
         List<FoodItem> foodItems = new ArrayList<>();
-        String sql = "SELECT * FROM FoodItems"; //  a table named FoodItems
+        String sql = "SELECT * FROM javafinalproject.FoodItems"; //  a table named FoodItems
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -47,7 +47,7 @@ public class FoodItemDAO {
 
     // Method to add a FoodItem to the database
     public void addFoodItem(FoodItem item) {
-        String sql = "INSERT INTO FoodItems (name, description, quantity, status, price, category) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO javafinalproject.foodItems (foodName, description, quantity, status, price, category, retailerId, ExpirationDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -58,6 +58,8 @@ public class FoodItemDAO {
             pstmt.setString(4, item.getStatus());
             pstmt.setDouble(5, item.getPrice());
             pstmt.setString(6, item.getCategory());
+            pstmt.setInt(7, item.getRetailerId());
+            pstmt.setDate(8, java.sql.Date.valueOf(item.getExpirationDate()));
             
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -67,7 +69,7 @@ public class FoodItemDAO {
     }
     
     public void updateFoodItem(FoodItem item) {
-        String sql = "UPDATE FoodItems SET name=?, description=?, quantity=?, status=?, price=?, category=? WHERE id=?";
+        String sql = "UPDATE javafinalproject.FoodItems SET foodName=?, description=?, quantity=?, status=?, price=?, category=? WHERE id=?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -85,7 +87,7 @@ public class FoodItemDAO {
     }
 
     public void deleteFoodItem(int id) {
-        String sql = "DELETE FROM FoodItems WHERE id=?";
+        String sql = "DELETE FROM javafinalproject.FoodItems WHERE id=?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -98,7 +100,7 @@ public class FoodItemDAO {
     
     public FoodItem getFoodItemById(int foodItemId) {
         FoodItem foodItem = null;
-        String sql = "SELECT * FROM FoodItems WHERE id = ?";
+        String sql = "SELECT * FROM javafinalproject.FoodItems WHERE id = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -109,7 +111,7 @@ public class FoodItemDAO {
             if (rs.next()) {
                 foodItem = new FoodItem();
                 foodItem.setFoodItemId(rs.getInt("id"));
-                foodItem.setFoodName(rs.getString("name"));
+                foodItem.setFoodName(rs.getString("foodName"));
                 foodItem.setDescription(rs.getString("description"));
                 foodItem.setQuantity(rs.getInt("quantity"));
                 foodItem.setStatus(rs.getString("status"));

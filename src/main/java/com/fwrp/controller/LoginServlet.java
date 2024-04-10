@@ -2,6 +2,8 @@ package com.fwrp.controller;
 import com.fwrp.model.User;
 import com.fwrp.dao.UserDAO;
 import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,18 +28,19 @@ public class LoginServlet extends HttpServlet {
 	            // Successful login
 	            HttpSession session = request.getSession();
 	            session.setAttribute("user", optionalUser.get());
+	            //int userId = optionalUser.get().getUserId();
 	           
                 
                 // Redirect based on user type
                 switch (optionalUser.get().getUserType()) {
                     case "Retailer":
-                        response.sendRedirect("retailerPage.jsp"); // Replace "retailerPage.jsp" with the actual page for retailers
+                        response.sendRedirect("retailer.jsp"); // Replace "retailerPage.jsp" with the actual page for retailers
                         break;
                     case "Consumer":
-                        response.sendRedirect("consumerPage.jsp"); // Replace "consumerPage.jsp" with the actual page for consumers
+                        response.sendRedirect("consumer.jsp"); // Replace "consumerPage.jsp" with the actual page for consumers
                         break;
                     case "CharityOrganization":
-                        response.sendRedirect("charityOrganizationPage.jsp"); // Replace "charityOrganizationPage.jsp" with the actual page for charity organizations
+                        response.sendRedirect("charityOrganization.jsp"); // Replace "charityOrganizationPage.jsp" with the actual page for charity organizations
                         break;
                     default:
                         response.sendRedirect("welcome.jsp"); // Default redirect if user type doesn't match

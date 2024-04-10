@@ -20,9 +20,17 @@
     </header>
     
     <section>
-        <h2>Inventory Management</h2>
-        <a href="addFoodItemForm.jsp">Add New Food Item</a> <!-- Link to a form for adding new food items -->
-        <!-- Inventory list could go here, with options to update or delete each item -->
+         <h2>Inventory Actions</h2>
+        <!-- Link to add a new food item -->
+        <a href="retail_addFoodItem">Add New Food Item</a><br/>
+        <!-- Link to update a food item (Assuming there's a form/page for this) -->
+        <a href="udateFoodItemForm">Update Food Item</a><br/>
+        <!-- Link to list surplus items (Assuming there's a form/page for this) -->
+        <a href="listSurplusItemForm">List Surplus Item</a><br/>
+        <!-- Link to mark an item for donation (Assuming there's a form/page for this) -->
+        <a href="markForDonationForm">Mark Item for Donation</a><br/>
+        <!-- Link to mark an item for sale (Assuming there's a form/page for this) -->
+        <a href="markForSaleForm">Mark Item for Discount Sale</a>
     </section>
     
     <section>

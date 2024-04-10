@@ -42,7 +42,8 @@ public class RetailerService {
         return allItems.stream().filter(item -> item.getRetailerId() == retailerId)
                        .collect(Collectors.toList());
     }
-
+    
+//List Surplus Item
     // Identify and list all surplus food items
     public List<FoodItem> identifySurplusFoodItems(int retailerId) {
         List<FoodItem> allItems = getAllFoodItems(retailerId);

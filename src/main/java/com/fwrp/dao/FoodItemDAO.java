@@ -1,4 +1,5 @@
 package com.fwrp.dao;
+import java.sql.Date;
 
 import com.fwrp.model.FoodItem;
 import java.sql.Connection;
@@ -36,6 +37,15 @@ public class FoodItemDAO {
                 item.setStatus(rs.getString("status")); // For sale or donation
                 item.setPrice(rs.getDouble("price")); // 
                 item.setCategory(rs.getString("category")); // a category column
+                
+             // Set ExpirationDate from the ResultSet (convert java.sql.Date to LocalDate)
+                Date dbDate = rs.getDate("ExpirationDate");
+                if (dbDate != null) {
+                    LocalDate expirationDate = dbDate.toLocalDate();
+                    item.setExpirationDate(expirationDate);
+                }
+
+                foodItems.add(item);
                 foodItems.add(item);
             }
         } catch (SQLException e) {
@@ -151,7 +161,6 @@ public class FoodItemDAO {
                     String category = rs.getString("Category");
                     int retailerId = rs.getInt("RetailerID");
                     LocalDate expirationDate = rs.getDate("ExpirationDate").toLocalDate();
-
                     foodItem = new FoodItem();  // Assuming an appropriate constructor or use setters
                     foodItem.setFoodItemId(foodItemId);
                     foodItem.setFoodName(foodName);
@@ -170,4 +179,37 @@ public class FoodItemDAO {
         
         return foodItem;
     }
+    public List<FoodItem> getSurplusFoodItemsOfRetailer(int retailerId) {
+        List<FoodItem> foodItems = new ArrayList<>();
+         // Filter by retailerId and expiration date within one week
+        String sql = "SELECT * FROM javafinalproject.FoodItems WHERE retailerId = ? AND ExpirationDate BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, retailerId); // Set the retailerId in the query
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    FoodItem item = new FoodItem();
+                    item.setFoodItemId(rs.getInt("foodItemID"));
+                    item.setFoodName(rs.getString("foodName"));
+                    item.setDescription(rs.getString("description"));
+                    item.setQuantity(rs.getInt("quantity"));
+                    item.setStatus(rs.getString("status")); // For sale or donation
+                    item.setPrice(rs.getDouble("price"));
+                    item.setCategory(rs.getString("category"));
+                    item.setRetailerId(retailerId); // FoodItem class has this field
+                    item.setExpirationDate(rs.getDate("ExpirationDate").toLocalDate());
+                    // e.g., item.setExpirationDate(rs.getDate("expirationDate").toLocalDate());
+                    foodItems.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            // Handle exceptions (print stack trace is for debugging, should be logged in production)
+            e.printStackTrace();
+        }
+        return foodItems;
+    }
+
 }

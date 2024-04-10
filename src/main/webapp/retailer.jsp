@@ -14,7 +14,7 @@
         <nav>
             <a href="index.jsp">Home</a> |
             <a href="about-contact.jsp">About/Contact</a> |
-            <a href="foodItem">Surplus Foods</a> |
+            <a href="foodItem">All of the Foods</a> |
             <a href="subscribe-alerts.jsp">Subscribe</a>
         </nav>
     </header>
@@ -26,7 +26,7 @@
         <!-- Link to update a food item (Assuming there's a form/page for this) -->
         <a href="retail_updateFoodItem">Update Food Item</a><br/>
         <!-- Link to list surplus items (Assuming there's a form/page for this) -->
-        <a href="listSurplusItemForm">List Surplus Item</a><br/>
+        <a href="retail_ListSurplusItem">List Surplus Item</a><br/>
         <!-- Link to mark an item for donation (Assuming there's a form/page for this) -->
         <a href="markForDonationForm">Mark Item for Donation</a><br/>
         <!-- Link to mark an item for sale (Assuming there's a form/page for this) -->

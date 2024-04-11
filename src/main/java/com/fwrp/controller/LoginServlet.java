@@ -39,8 +39,8 @@ public class LoginServlet extends HttpServlet {
                     case "Consumer":
                         response.sendRedirect("consumer.jsp"); // Replace "consumerPage.jsp" with the actual page for consumers
                         break;
-                    case "CharityOrganization":
-                        response.sendRedirect("charityOrganization.jsp"); // Replace "charityOrganizationPage.jsp" with the actual page for charity organizations
+                    case "CharitableOrganization":
+                        response.sendRedirect("CharitableOrganization.jsp"); 
                         break;
                     default:
                         response.sendRedirect("welcome.jsp"); // Default redirect if user type doesn't match

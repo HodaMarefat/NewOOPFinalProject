@@ -34,16 +34,20 @@ public class LoginServlet extends HttpServlet {
                 // Redirect based on user type
                 switch (optionalUser.get().getUserType()) {
                     case "Retailer":
-                        response.sendRedirect("retailer.jsp"); // Replace "retailerPage.jsp" with the actual page for retailers
+                    	request.getRequestDispatcher("/WEB-INF/retailer.jsp").forward(request, response);
+                        // response.sendRedirect("retailer.jsp"); // Replace "retailerPage.jsp" with the actual page for retailers
                         break;
                     case "Consumer":
-                        response.sendRedirect("consumer.jsp"); // Replace "consumerPage.jsp" with the actual page for consumers
+                    	request.getRequestDispatcher("/WEB-INF/consumer.jsp").forward(request, response);
+                        //response.sendRedirect("consumer.jsp"); // Replace "consumerPage.jsp" with the actual page for consumers
                         break;
                     case "CharitableOrganization":
-                        response.sendRedirect("CharitableOrganization.jsp"); 
+                    	request.getRequestDispatcher("/WEB-INF/CharitableOrganization.jsp").forward(request, response);
+                        //response.sendRedirect("CharitableOrganization.jsp"); 
                         break;
                     default:
-                        response.sendRedirect("welcome.jsp"); // Default redirect if user type doesn't match
+                    	request.getRequestDispatcher("/WEB-INF/welcome.jsp").forward(request, response);
+                        //response.sendRedirect("welcome.jsp"); // Default redirect if user type doesn't match
                         break;
                 }
 	        } else {

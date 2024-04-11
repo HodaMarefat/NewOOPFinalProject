@@ -25,7 +25,8 @@ public class ListSurplusItemsServlet extends HttpServlet {
 		//List<FoodItem> surplusItems = retailerService.identifySurplusFoodItems(retailerId); 
 		List<FoodItem> foodItems = foodItemDAO.getSurplusFoodItemsOfRetailer(retailerId);
         request.setAttribute("surplusItems", foodItems); // Store the list in the request scope
-        request.getRequestDispatcher("/retail_ListSurplusItem.jsp").forward(request, response); // Forward to JSP
+		request.getRequestDispatcher("/WEB-INF/retail_ListSurplusItem.jsp").forward(request, response);
+        //request.getRequestDispatcher("/retail_ListSurplusItem.jsp").forward(request, response); // Forward to JSP
     }
 
 }

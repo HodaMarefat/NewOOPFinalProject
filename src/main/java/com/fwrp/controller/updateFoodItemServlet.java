@@ -62,7 +62,8 @@ public class updateFoodItemServlet extends HttpServlet {
             request.getSession().setAttribute("message", "Food item updated successfully.");
 
             // Redirect to the success page
-            response.sendRedirect("successfulUpdate.jsp");
+        	request.getRequestDispatcher("/WEB-INF/successfulUpdate.jsp").forward(request, response);
+            // response.sendRedirect("successfulUpdate.jsp");
 
         } catch (Exception e) {
             // Log the exception and set an error message for the user
@@ -70,13 +71,15 @@ public class updateFoodItemServlet extends HttpServlet {
             request.getSession().setAttribute("error", "Failed to update the food item.");
 
             // Redirect back to the update food item form
-            response.sendRedirect("retail_updateFoodItem.jsp");
+            request.getRequestDispatcher("/WEB-INF/retail_updateFoodItem.jsp").forward(request, response);
+            // response.sendRedirect("retail_updateFoodItem.jsp");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Redirect GET requests to the update form, or handle them as needed
-        response.sendRedirect("retail_updateFoodItem.jsp");
+        request.getRequestDispatcher("/WEB-INF/retail_updateFoodItem.jsp").forward(request, response);
+    	//response.sendRedirect("retail_updateFoodItem.jsp");
     }
 }

@@ -50,7 +50,8 @@ public class addFoodItemServlet extends HttpServlet {
             request.getSession().setAttribute("message", "Food item added successfully.");
 
         	// Redirect to the success page
-            response.sendRedirect("successfulAddedItem.jsp");
+            request.getRequestDispatcher("/WEB-INF/successfulAddedItem.jsp").forward(request, response);
+            // response.sendRedirect("successfulAddedItem.jsp");
 
         } catch (Exception e) {
             // Handle exceptions, e.g., by logging them and setting an error message
@@ -58,12 +59,15 @@ public class addFoodItemServlet extends HttpServlet {
             request.getSession().setAttribute("error", "Failed to add the food item.");
 
             // Redirect back to the add food item form or an error page
-            response.sendRedirect("addFoodItemForm.jsp");
+    		request.getRequestDispatcher("/WEB-INF/retail_addFoodItem.jsp").forward(request, response);
+            //response.sendRedirect("addFoodItemForm.jsp");
         }
 	}
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         // Redirect GET requests to the registration form, or handle them as needed
-        response.sendRedirect("retail_addFoodItem.jsp");
+		request.getRequestDispatcher("/WEB-INF/retail_addFoodItem.jsp").forward(request, response);
     }
 }
